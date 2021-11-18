@@ -35,16 +35,35 @@ nav ul li a:hover {
 <nav>
     <ul>
 <li><a href="${contextPath }/index">HOME</a></li>
+<li>
 
+	
+<a href="${contextPath }/member/memberInfo">MEMBER_SHIP</a>
+	
+<!--
 <c:choose>
 	<c:when test="${loginUser != null}">
-		<li><a href="${contextPath }/member/logout">LOGOUT</a></li>
+		<a href="${contextPath }/member/memberInfo">MEMBER_SHIP</a>
 	</c:when>
 	<c:otherwise>
-		<li><a href="${contextPath }/member/login">LOGIN</a></li>
+		<a href="${contextPath }/member/login">MEMBER_SHIP</a>
 	</c:otherwise>
 </c:choose>
-
+-->
+</li>
+<li>
+	<a href="${contextPath }/board/list">BOARD</a>
+</li>
+<li>
+<c:choose>
+	<c:when test="${loginUser != null}">
+		<a href="${contextPath }/member/logout">LOGOUT</a>
+	</c:when>
+	<c:otherwise>
+		<a href="${contextPath }/member/login">LOGIN</a>
+	</c:otherwise>
+</c:choose>
+</li>
     </ul>
 </nav>
 </div>

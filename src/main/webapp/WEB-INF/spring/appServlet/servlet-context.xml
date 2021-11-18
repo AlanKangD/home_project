@@ -23,6 +23,23 @@
 	
 	<context:component-scan base-package="com.care.root" />
 	
+	<beans:bean id="ci" class="com.care.root.common.interceptor.CommonInterceptor"/>
+	<beans:bean id="bi" class="com.care.root.board.interceptor.BInterceptor"/>
+	<beans:bean id="autoLogin" class="com.care.root.member.interceptor.AutoLoginInterceptor"/>
 	
+<interceptors>
+	<interceptor>
+		<mapping path="/member/memberInfo"/> <!-- 사용자가 /member/memberInfo를 요청하면 -->
+		<mapping path="/board/list"/>
+		<mapping path="/board/write"/>
+		<beans:ref bean="ci"/>	<!-- ci를 보세요 라는 의미 입니다. -->
+	</interceptor>
+	
+	<interceptor>
+		<mapping path="/index"/>
+		<beans:ref bean="autoLogin"/>
+	</interceptor>
+
+</interceptors>
 	
 </beans:beans>

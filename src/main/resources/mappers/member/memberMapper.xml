@@ -9,12 +9,29 @@
 		<id property="id" column="id"/> <!-- 데이터베이스의 primary키는 id라고 씁니다. -->
 		<result property="pw" column="pw"/>
 		<result property="addr" column="addr"/>
+		<result property="limitTime" column="limit_time"/>
+		<result property="sessionId" column="session_id"/>
 	</resultMap>
 	
 	<select id="getMember" resultMap="member">
 		select * from membership where id = #{id}
 	</select>
-
+	<select id="memberInfo" resultMap="member">
+		select * from membership
+	</select>
+	<insert id="register">
+		insert into membership(id, pw, addr) values(#{id}, #{pw}, #{addr})
+	</insert>
+	<update id="update">
+		update membership set pw=#{pw}, addr=#{addr} where id=#{id}
+	</update>
+	<update id="keepLogin">
+		update membership set session_id=#{sessionId}, 
+								limit_time=#{limitDate} where id=#{id}
+	</update>
+	<select id="getUserSession" resultMap="member">
+		select * from membership where session_id=#{sessionId}
+	</select>
 </mapper>
 
 
