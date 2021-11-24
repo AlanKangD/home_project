@@ -13,9 +13,9 @@ public class BoardDTO {
 	private String id;
 	
 	
-	public void setSaveDate(String saveDate) {
-		this.saveDate = saveDate;
-	}
+	//public void setSaveDate(String saveDate) {
+		//this.saveDate = saveDate;
+//	}
 	public void setSaveDate(java.sql.Timestamp saveDate) {
 		SimpleDateFormat fo = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 		this.saveDate = fo.format(saveDate);

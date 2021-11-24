@@ -30,14 +30,22 @@
 <interceptors>
 	<interceptor>
 		<mapping path="/member/memberInfo"/> <!-- 사용자가 /member/memberInfo를 요청하면 -->
+		<mapping path="/board/writeForm"/>
 		<beans:ref bean="ci"/>	<!-- ci를 보세요 라는 의미 입니다. -->
 	</interceptor>
 	
 	<interceptor>
 		<mapping path="/index"/>
 		<beans:ref bean="autoLogin"/>
+		
 	</interceptor>
 
 </interceptors>
+
+	<beans:bean id="multipartResolver" 
+   	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+      <beans:property name="maxUploadSize" value="52428800"/>
+      <beans:property name="defaultEncoding" value="utf-8"/>
+   </beans:bean>
 	
 </beans:beans>
