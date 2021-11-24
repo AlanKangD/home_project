@@ -52,7 +52,7 @@ nav ul li a:hover {
 -->
 </li>
 <li>
-	<a href="${contextPath }/board/list">BOARD</a>
+	<a href="${contextPath }/board/boardAllList">BOARD</a>
 </li>
 <li>
 <c:choose>
