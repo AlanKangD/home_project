@@ -10,4 +10,5 @@ public interface BoardFileService {
 	public String getMessage(HttpServletRequest request,
 								String msg, String url); //저장 완료 메시지 전달 용도
 	public String saveFile(MultipartFile file); //file저장 하는 메소드
+	public void deleteImage(String originFileName);
 }

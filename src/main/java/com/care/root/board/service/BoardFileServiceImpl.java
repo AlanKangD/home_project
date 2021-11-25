@@ -36,4 +36,10 @@ public class BoardFileServiceImpl implements BoardFileService{
 	    return sysFileName;
 	}
 
+	@Override
+	public void deleteImage(String originFileName) {
+		File deleteFile = new File(IMAGE_REPO+"/"+ originFileName);
+		deleteFile.delete();
+	}
+
 }

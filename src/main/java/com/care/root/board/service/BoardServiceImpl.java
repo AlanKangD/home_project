@@ -50,4 +50,47 @@ public class BoardServiceImpl implements BoardService{
 	      return bfs.getMessage(request, msg, url);
 	   }
 
+	@Override
+	public void contentView(int writeNo, Model model) {
+		
+		model.addAttribute("personalData", mapper.contentView(writeNo) );
+		upHit(writeNo);
+		
+	}
+	private void upHit(int writeNo) {
+		mapper.upHit(writeNo);
+	}
+
+	@Override
+	public void getData(int writeNo, Model model) {
+		model.addAttribute("personalData", mapper.contentView(writeNo));
+		
+	}
+	
+	public String modify(MultipartHttpServletRequest mul, HttpServletRequest request) {
+	      BoardDTO dto = new BoardDTO();
+	      dto.setWriteNo( Integer.parseInt(mul.getParameter("writeNo")) );
+	      dto.setTitle(mul.getParameter("title"));
+	      dto.setContent(mul.getParameter("content"));
+	      
+	      MultipartFile file = mul.getFile("imageFileName");
+	      if(file.getSize() != 0 ) {
+	         //이미지 변경시
+	    	  dto.setImageFileName(bfs.saveFile(file));
+	    	  bfs.deleteImage( mul.getParameter("originFileName"));
+	      }else {
+	         dto.setImageFileName(mul.getParameter("originFileName"));
+	      }
+	      int result = mapper.modify(dto);
+	      String msg, url;
+	      if(result == 1) {
+	         msg = "성공적으로 수정되었습니다";
+	         url = "/board/boardAllList";
+	      }else {
+	         msg = "수정 중 문제가 발생하였습니다";
+	         url = "/board/modify_form";
+	      }
+	      String message = bfs.getMessage(request, msg, url);
+	      return message;
+	   }
 }

@@ -21,4 +21,14 @@
 	 	insert into m_board(write_no,id,title,content,image_file_name)
     		values(m_board_seq.nextval,#{id},#{title},#{content},#{imageFileName})
 	</insert>
+	<select id="contentView" resultMap="board">
+		select * from m_board where write_no = #{writeNo}
+	</select>
+	<update id="upHit">
+		update m_board set hit = hit + 1 where write_no = #{writeNo}
+	</update> 
+	<update id="modify">
+		update m_board set title=#{title}, content=#{content}, 
+		   	image_file_name=#{imageFileName} where write_no=#{writeNo}
+	</update>
 </mapper>
