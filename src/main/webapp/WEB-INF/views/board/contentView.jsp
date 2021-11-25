@@ -44,7 +44,7 @@
 			<td colspan="4" align="center">
 			<c:if test="${ loginUser == personalData.id }">
 					<input type="button" onclick="location.href='${contextPath}/board/modify_form?writeNo=${personalData.writeNo}'" value="수정하기">
-					<input type="button" onclick="" value="삭제하기">
+					<input type="button" onclick="location.href='${contextPath}/board/delete?writeNo=${personalData.writeNo}&imageFileName=${personalData.imageFileName }'" value="삭제하기">
 			</c:if> <input type="button" onclick="" value="답글달기"> <input
 				type="button" onclick="location.href='${contextPath}/board/boardAllList'" value="리스트로 돌아가기"></td>
 		</tr>

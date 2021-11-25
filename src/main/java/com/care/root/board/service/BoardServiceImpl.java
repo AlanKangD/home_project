@@ -93,4 +93,23 @@ public class BoardServiceImpl implements BoardService{
 	      String message = bfs.getMessage(request, msg, url);
 	      return message;
 	   }
+
+	@Override
+	public String boardDelete(int writeNo, String imageFileName, HttpServletRequest request) {
+		
+	      int result = mapper.delete(writeNo);
+	      String msg=null, url=null;
+	      if(result == 1) { 
+	         bfs.deleteImage(imageFileName); 
+	         msg = "성공적으로 삭제 되었습니다";
+	         url = "/board/boardAllList";
+	      }else {
+	         msg = "삭제 중 문제가 발생하였습니다";
+	         url = "/board/contentView";
+	      }
+	      String message = bfs.getMessage(request,msg,url);
+	     
+	      return message;
+
+	}
 }

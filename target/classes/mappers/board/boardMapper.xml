@@ -31,4 +31,7 @@
 		update m_board set title=#{title}, content=#{content}, 
 		   	image_file_name=#{imageFileName} where write_no=#{writeNo}
 	</update>
+	<delete id="delete">
+		delete from m_board where write_no = #{writeNo}
+	</delete>
 </mapper>

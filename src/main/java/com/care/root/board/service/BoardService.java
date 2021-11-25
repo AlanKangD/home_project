@@ -12,4 +12,6 @@ public interface BoardService {
 	public void contentView(int writeNo, Model model); //게시글 상세보기 기능
 	public void getData(int writeNo, Model model);
 	public String modify(MultipartHttpServletRequest mul, HttpServletRequest request);
+	public String boardDelete(int write_no,String imageFileName,
+			HttpServletRequest request); //게시판 삭제
 }

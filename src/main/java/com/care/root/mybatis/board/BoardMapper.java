@@ -10,4 +10,5 @@ public interface BoardMapper {
 	public BoardDTO contentView(int writeNo); //게시물 상세보기 기능(한명의 데이터)
 	public void upHit(int writeNo); //조회 수 증가 기능
 	public int modify(BoardDTO dto); //게시물 수정 기능
+	public int delete(int writeNo); //게시물 삭제 기능
 }

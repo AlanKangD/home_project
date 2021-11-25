@@ -85,5 +85,16 @@ public class BoardController {
 	   out = response.getWriter();
 	   out.println(message);
 	}
+	@GetMapping("delete")
+	public void boardDelete(@RequestParam("writeNo") int write_no,
+	      @RequestParam("imageFileName") String imageFileName,
+	      HttpServletResponse response, 
+	      HttpServletRequest request) throws IOException {
+	   String message = bs.boardDelete(write_no,imageFileName,request);
+	   PrintWriter out=null;
+	   response.setContentType("text/html; charset=utf-8");
+	   out = response.getWriter();
+	   out.println(message);
+	}
 
 }
