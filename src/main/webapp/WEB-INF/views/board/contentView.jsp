@@ -5,10 +5,102 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+#modal_wrap {
+	display: none;
+	position: fixed;
+	z-index: 9;
+	margin: 0 auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+#first {
+	position: fixed;
+	z-index: 10;
+	margin: 0 auto;
+	top: 30px;
+	left: 0;
+	right: 0;
+	display: none;
+	background-color: rgba(212, 244, 250, 0.9);
+	height: 350px;
+	width: 300px;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	function slideClick() {
+		$("#first").slideDown('slow');
+		$("#modal_wrap").show();
+	}
+	function slide_hide() {
+		$("#first").slideUp('fast');
+		$("#modal_wrap").hide();
+	}
+	function rep() {
+		let form = {};
+		let arr = $("#frm").serializeArray()
+		/*
+			arr = [{name : write_no, value:"입력값"},
+						{name : title, value:"입력값"},,,]
+		이런식으로 값을 저장해줍니다.
+		*/
+		for (i = 0; i < arr.length; i++) {
+			form[arr[i].name] = arr[i].value;
+		}
+		/*
+			form = {write_no:"입력값", title:"입력값",,,}
+		이런식으로 반복문으로 배열의 값들을 담아서 가지고 옵니다.
+		*/
+		
+		$.ajax({
+			url : "addReply",
+			type : "POST",
+			dataType : "json",
+			data : JSON.stringify(form), //json형태로 바꾸겠다라는 의미입니다.
+			contentType : "application/json;charset=utf-8",
+			success : function(list) {
+				alert("성공적으로 답글이 달렸습니다.");
+				slide_hide();
+			},
+			error : function() {
+				alert("문제 발생!")
+			}
+		});
+	}
+</script>
 </head>
 <body>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<div id="modal_wrap">
+		<div id="first">
+			<div style="width: 250px; margin: 0 auto; padding-top: 20px;">
+				<form id="frm">
+					<input type="hidden" name="write_no"
+						value="${personalData.writeNo}"> <b>답글 작성 페이지</b>
+					<hr>
+					<b>작성자 : ${loginUser}</b>
+					<hr>
+					<b>제목</b><br>
+					<input type="text" id="title" size="30" name="title">
+					<hr>
+					<b>내용</b><br>
+					<textarea name="content" id="content" rows="5" cols="30"></textarea>
+					<hr>
+					<button type="button" onclick="rep()">답글</button>
+					<button type="button" onclick="slide_hide()">취소</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 	<c:import url="../default/header.jsp" />
 	<table border="1" align="center">
 		<caption>
@@ -29,26 +121,24 @@
 		<tr>
 			<th>내용</th>
 			<td>${personalData.content}</td>
-			<td colspan="2">
-			<c:if test="${ personalData.imageFileName == 'nan' }">
-					<b>이미지가 없습니다</b>
-				</c:if> <c:if test="${ personalData.imageFileName != 'nan' }">
+			<td colspan="2"><c:if
+					test="${ personalData.imageFileName != 'nan' }">
 					<img width="200px" height="100px"
 						src="${contextPath}/board/download?imageFileName=${personalData.imageFileName}">
-				<a href="${contextPath}/board/download?imageFileName=${personalData.imageFileName}">
-					${personalData.imageFileName}
-				</a>		
 				</c:if></td>
 		</tr>
 		<tr>
-			<td colspan="4" align="center">
-			<c:if test="${ loginUser == personalData.id }">
-					<input type="button" onclick="location.href='${contextPath}/board/modify_form?writeNo=${personalData.writeNo}'" value="수정하기">
-					<input type="button" onclick="location.href='${contextPath}/board/delete?writeNo=${personalData.writeNo}&imageFileName=${personalData.imageFileName }'" value="삭제하기">
-			</c:if> <input type="button" onclick="" value="답글달기"> <input
-				type="button" onclick="location.href='${contextPath}/board/boardAllList'" value="리스트로 돌아가기"></td>
+			<td colspan="4" align="center"><c:if
+					test="${ loginUser == personalData.id }">
+					<input type="button" value="수정하기"
+						onclick="location.href='${contextPath}/board/modify_form?writeNo=${personalData.writeNo}'">
+					<input type="button" value="삭제하기"
+						onclick="location.href='${contextPath}/board/delete?writeNo=${personalData.writeNo}&imageFileName=${personalData.imageFileName}'">
+				</c:if> <input type="button" onclick="slideClick()" value="답글달기"> <input
+				type="button" onclick="" value="리스트로 돌아가기"></td>
 		</tr>
 	</table>
 	<c:import url="../default/footer.jsp" />
+
 </body>
 </html>

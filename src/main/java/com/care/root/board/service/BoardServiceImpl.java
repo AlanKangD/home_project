@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.care.root.board.dto.BoardDTO;
+import com.care.root.board.dto.BoardRepDTO;
 import com.care.root.mybatis.board.BoardMapper;
 
 @Service
@@ -111,5 +112,11 @@ public class BoardServiceImpl implements BoardService{
 	     
 	      return message;
 
+	}
+
+	@Override
+	public void addReply(BoardRepDTO dto) {
+		mapper.addReply(dto);
+		
 	}
 }
