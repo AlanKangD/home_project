@@ -28,8 +28,10 @@ public class BoardController {
 	
 	
 	@GetMapping("boardAllList")
-	public String boardAllList(Model model) {
-		bs.boardAllList(model);		
+	public String boardAllList(Model model,
+							@RequestParam(required = false, defaultValue = "1") int num ) {
+							//상단의 코드의 의미는 만약 넘어오는 데이터가 없으면 1이라는 숫자를 넣어주고 값이 넘어오면 그 넘어오는 숫자로 쓰겠다라는 의미
+		bs.boardAllList(model, num);		
 		
 		return "board/boardAllList";
 	}

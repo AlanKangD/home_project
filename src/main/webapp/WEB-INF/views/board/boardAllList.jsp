@@ -39,7 +39,12 @@
 			</c:forEach>
 			<tr>
 				<td colspan="6">
-				<a href="${contextPath }/board/writeForm">글작성</a>
+				<div align="left">
+				<c:forEach var="num" begin="1" end="${repeat }">
+					<a href="boardAllList?num=${num }">[${num }]</a>
+				</c:forEach> 
+					<a href="${contextPath }/board/writeForm">글작성</a>
+				</div>
 				</td>
 			</tr>
 		</table>

@@ -1,5 +1,7 @@
 package com.care.root.board.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,18 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired BoardFileService bfs;
 	
 	@Override
-	public void boardAllList(Model model) {
-		model.addAttribute("boardList", mapper.boardAllList());
+	public void boardAllList(Model model, int num) {
+		int pageLetter = 3; // 페이지당 보여질 글 개수
+		int allCount = mapper.selectBoardCount(); // 총 개수
+		int repeat = allCount / pageLetter; // 반복 횟수 및 총 페이지 수
+		if(allCount % pageLetter != 0) {
+			repeat += 1;
+		}
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		model.addAttribute("repeat" , repeat);
+		
+		model.addAttribute("boardList", mapper.boardAllList(start,end));
 		
 	}
 	
@@ -118,5 +130,17 @@ public class BoardServiceImpl implements BoardService{
 	public void addReply(BoardRepDTO dto) {
 		mapper.addReply(dto);
 		
+	}
+
+	@Override
+	public List<BoardRepDTO> getRepList(int write_group) {
+		
+		return mapper.getRepList(write_group);
+	}
+
+	@Override
+	public int selectBoardCount() {
+		
+		return mapper.selectBoardCount();
 	}
 }

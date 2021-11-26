@@ -5,37 +5,66 @@
 
 <mapper namespace="com.care.root.mybatis.board.BoardMapper">
 	<resultMap type="com.care.root.board.dto.BoardDTO" id="board">
-		   <id property="writeNo" column="write_no"/>
-		   <result property="title" column="title"/>
-		   <result property="content" column="content"/>
-		   <result property="saveDate" column="savedate"/>
-		   <result property="hit" column="hit"/>
-		   <result property="imageFileName" column="image_file_name"/>
-		   <result property="id" column="id"/>
-    </resultMap>
-
+		<id property="writeNo" column="write_no" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="saveDate" column="savedate" />
+		<result property="hit" column="hit" />
+		<result property="imageFileName" column="image_file_name" />
+		<result property="id" column="id" />
+	</resultMap>
+	<resultMap id="reply"
+		type="com.care.root.board.dto.BoardRepDTO">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="write_group" column="write_group" />
+		<result property="write_date" column="write_date" />
+	</resultMap>
+<!--  
 	<select id="boardAllList" resultMap="board">
 		select * from m_board
 	</select>
+-->
 	<insert id="writeSave">
-	 	insert into m_board(write_no,id,title,content,image_file_name)
-    		values(m_board_seq.nextval,#{id},#{title},#{content},#{imageFileName})
+		insert into
+		m_board(write_no,id,title,content,image_file_name)
+		values(m_board_seq.nextval,#{id},#{title},#{content},#{imageFileName})
 	</insert>
 	<select id="contentView" resultMap="board">
-		select * from m_board where write_no = #{writeNo}
+		select * from m_board where
+		write_no = #{writeNo}
 	</select>
 	<update id="upHit">
-		update m_board set hit = hit + 1 where write_no = #{writeNo}
-	</update> 
+		update m_board set hit = hit + 1 where write_no =
+		#{writeNo}
+	</update>
 	<update id="modify">
-		update m_board set title=#{title}, content=#{content}, 
-		   	image_file_name=#{imageFileName} where write_no=#{writeNo}
+		update m_board set title=#{title},
+		content=#{content},
+		image_file_name=#{imageFileName} where
+		write_no=#{writeNo}
 	</update>
 	<delete id="delete">
 		delete from m_board where write_no = #{writeNo}
 	</delete>
 	<insert id="addReply">
-	   insert into reply01(id,title,content,write_group) 
-	      values(#{id},#{title},#{content},#{write_group})
+		insert into reply01(id,title,content,write_group)
+		values(#{id},#{title},#{content},#{write_group})
 	</insert>
+	<select id="getRepList" resultMap="reply">
+		select * from reply01 where
+		write_group=#{write_group}
+		order by write_date desc
+	</select> <!-- 최신글이 상단으로 출력이 될수 있게 뽑아줍니다. -->
+
+	<select id="boardAllList" resultMap="board">
+		select B.* from(select rownum rn, A.* from
+		(select * from m_board order by write_no desc)A)B where rn between #{s} and
+		#{e} <!-- prarm에 있는 값이 넘어오게 됩니다. -->
+	</select>
+	
+	<select id="selectBoardCount" resultType="Integer">
+		select count(*) from m_board
+	</select>
 </mapper>
